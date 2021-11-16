@@ -65,13 +65,50 @@
 </template>
 
 <script>
+import { db } from '@/main'
 export default {
 
     data: () =>({
         today: new Date().toISOString().substr(0,10),
         focus: new Date().toISOString().substr(0,10),
+        type: "month",
+        typeToLabel: {
+            month: "Month",
+            week: "Week",
+            day: "Day",
+            "4day": "4 Days"
+        },
 
-    })
+        name: null,
+        details: null,
+        debut: null,
+        fin: null,
+        color: "#1976D2",
+        currentlyEditing: null,
+        selectedEvent: {},
+        selectedElement: null,
+        selectedOpen: false,
+        events:[],
+        dialog: false
+    }),
+
+    mounted(){
+
+        this.getEvents()
+    }, 
+
+    methods: {
+      async  getEvents(){
+          let snapshot = await db.collection('cal-event').get()
+          let events = [];
+          console.log("je sui " + events)
+          snapshot.forEach(doc =>{
+            //   let appData = doc.data()
+              console.log(doc)
+          })
+
+        }
+    }
     
 }
 </script>
